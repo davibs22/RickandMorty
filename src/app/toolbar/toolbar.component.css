@@ -1,0 +1,33 @@
+a{
+    color: #FFF;
+}
+
+ul{
+    display: flex;
+    position: absolute;
+    left: 0;
+    list-style-type: none;
+    font-family: Shlop;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 30px;
+    letter-spacing: 0.1em
+}
+
+/* Extra small devices (xs)*/
+@media (max-width: 575.98px) {
+    ul{
+        margin-top: 260px;
+        margin-bottom: 160px;
+    }
+}
+
+/* Small devices (sm)*/
+@media (max-width: 767.98px) {}
+
+/* Medium devices (md)*/
+@media (max-width: 991.98px) {}
+
+/* Large devices (lg)*/
+@media (max-width: 1199.98px) {}
