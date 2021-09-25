@@ -1,3 +1,9 @@
+@font-face {
+    font-family: shlop;
+    src: url("src\assets\fonts\shlop rg.ttf");
+}
+
+
 body {
     background: linear-gradient(116.82deg, #2B5973 0%, #171E28 100%) !important;
 }
