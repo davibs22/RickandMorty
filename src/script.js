@@ -15,17 +15,25 @@ function getParameterByName(name,url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+if (getParameterByName('page',window.location.href) == null){
+    urlCharacters = "https://rickandmortyapi.com/api/character"
+}else{
+    urlCharacters = "https://rickandmortyapi.com/api/character/?" + "page=" + getParameterByName('page',window.location.href)
+}
+
 if (getParameterByName('search',window.location.href) == null) {
     APIAllCharacter()
 }else{
     APIFindCharacter(getParameterByName('search',window.location.href))
 }
 
-if (getParameterByName('page',window.location.href) == null){
-    urlCharacters = "https://rickandmortyapi.com/api/character"
-}else{
-    urlCharacters = "https://rickandmortyapi.com/api/character/?" + "page=" + getParameterByName('page',window.location.href)
-}
+document.addEventListener("keypress", function onEvent(event) {
+    if (event.key === "Enter") {
+        if (document.activeElement === document.getElementById('searchInput')) {
+            document.getElementById("searchButton").click()
+        }
+    }
+});
 
 function pagination(next,prev,pages){
     paginationConfig.next = parseInt(getParameterByName('page',next))
@@ -101,7 +109,6 @@ function search(){
 }
 
 function APIAllCharacter(){
-    urlCharacters = "https://rickandmortyapi.com/api/character"
     fetch(urlCharacters, {method: "GET"})
         .then(response =>response.json())
         .then(response => {
@@ -168,7 +175,7 @@ function APIResidents(residentsList,id){
         fetch(residentsList[x], {method: "GET"})
             .then(response =>response.json())
             .then(response =>{
-                $(`#location${id}`).append(`<img style="border-radius: 100%;margin: 5px;border: 2px solid #0D7B32;" width="50px" src="${response.image}">`)
+                $(`#location${id}`).append(`<img style="border-radius: 100%;margin: 5px;border: 2px solid #0D7B32;" width="50px" height="50px" src="${response.image}">`)
             })
     }
 }
