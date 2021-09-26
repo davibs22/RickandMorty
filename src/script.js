@@ -182,8 +182,7 @@ function APIResidents(residentsList,id){
 
 function APIAllLocations(){
     var actualID = null
-    urlCharacters = "https://rickandmortyapi.com/api/location"
-    fetch(urlCharacters, {method: "GET"})
+    fetch("https://rickandmortyapi.com/api/location", {method: "GET"})
         .then(response =>response.json())
         .then(response => {
             for (let i = 0; i < response.results.length; i++){
@@ -203,4 +202,37 @@ function APIAllLocations(){
         })
 }
 
+function APICharacters(charactersList,id){
+    for (let x = 0; x < charactersList.length; x++){
+        fetch(charactersList[x], {method: "GET"})
+            .then(response =>response.json())
+            .then(response =>{
+                $(`#episode${id}`).append(`<img style="border-radius: 100%;margin: 5px;border: 2px solid #0D7B32;" width="50px" height="50px" src="${response.image}">`)
+            })
+    }
+}
+
+function APIAllEpisodes(){
+    var ID = null
+    fetch("https://rickandmortyapi.com/api/episode", {method: "GET"})
+        .then(response =>response.json())
+        .then(response => {
+            for (let i = 0; i < response.results.length; i++){
+                ID = response.results[i].id
+                $("#card-episodes-container").append(`
+                <div class="card card-character" style="width: 80vw;">
+                    <h5 class="card-header title-card-character">${response.results[i].name}</h5>
+                    <div class="card-body">
+                    <h5 class="card-title">${response.results[i].episode} - ${response.results[i].air_date}</h5>
+                    <div id="episode${ID}" style="display: flex;flex-wrap: wrap;">
+                    </div>
+                    </div>
+                </div>
+                `)
+                APICharacters(response.results[i].characters, ID)
+            }
+        })
+}
+
+APIAllEpisodes()
 APIAllLocations()
