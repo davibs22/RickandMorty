@@ -1,19 +1,17 @@
  <app-toolbar></app-toolbar>
-  
+
 <div class="content" role="main">
-    <!--<img src="../assets/img/background.png" class="image-background">-->
-    <div id="card-container" style="display: flex;flex-wrap: wrap;">
-            <!--<div id="${response.results[i].id}" class="card-character col-sm-12 col-md-3 col-lg-2">
-                <div class="card-back-effect"></div>
-                <img width="150" src="${response.results[i].image}" class="card-image-character">
-                <span class="title-card-character">${response.results[i].name}</span>
-                <div class="info-card-character">
-                    <span><img src="../assets/img/icon-gender.png">${response.results[i].gender}</span>
-                    <span><img src="../assets/img/icon-address.png">${response.results[i].origin.name}</span>
-                    <span><img src="../assets/img/icon-heart-beat.png">${response.results[i].status}</span>
-                    <span><img src="../assets/img/icon-human.png">${response.results[i].species}</span>
-                </div>
-            </div>-->
+    <div style="display: flex;justify-content: center;">
+        <input id="searchInput" class="search-input" placeholder="search">
+        <button class="search-button" onclick="search()">
+            <img src="../assets/img/icon-search.png">
+        </button>
+    </div>
+    <div class="py-5">
+        <div class="container">
+            <div id="card-container" class="row hidden-md-up">
+            </div>
+        </div>
     </div>
     <nav>
         <ul id="pagination" class="pagination">

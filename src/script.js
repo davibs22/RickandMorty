@@ -15,6 +15,12 @@ function getParameterByName(name,url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+if (getParameterByName('search',window.location.href) == null) {
+    APIAllCharacter()
+}else{
+    APIFindCharacter(getParameterByName('search',window.location.href))
+}
+
 if (getParameterByName('page',window.location.href) == null){
     urlCharacters = "https://rickandmortyapi.com/api/character"
 }else{
@@ -25,8 +31,6 @@ function pagination(next,prev,pages){
     paginationConfig.next = parseInt(getParameterByName('page',next))
     paginationConfig.prev = parseInt(getParameterByName('page',prev))
     paginationConfig.actual = parseInt(getParameterByName('page',window.location.href))
-    console.log(parseInt(getParameterByName('page',window.location.href)))
-    console.log(next)
     if (prev == null){
         return `
             <li class="page-item disabled">
@@ -84,28 +88,112 @@ function pagination(next,prev,pages){
     }
 }
 
-fetch(urlCharacters, {method: "GET"})
-    .then(response =>response.json())
-    .then(response => {
-        $("#pagination").html(pagination(response.info.next,response.info.prev,response.info.pages))
-        for (let i = 0; i < response.results.length; i++){
-            $("#card-container").append(`
-                <div id="${response.results[i].id}" class="card cardR col-12 col-sm-4 col-lg-2" style="width: 18rem;">
-                    <img src= "${response.results[i].image}" class="card-img-top" alt="..." style="margin-top: 10px;">
-                    <div class="card-body">
-                        <h5 class="card-title title-card-character">${response.results[i].name}</h5>
-                        <div style="display:flex;flex-direction: column;">
-                            <span><img src="../assets/img/icon-gender.png">${response.results[i].gender}</span>
-                            <span><img src="../assets/img/icon-address.png">${response.results[i].location.name}</span>
-                            <span><img src="../assets/img/icon-heart-beat.png">${response.results[i].status}</span>
-                            <span><img src="../assets/img/icon-human.png">${response.results[i].species}</span>
+function textReduction(text){
+    if (text.length > 15){
+        return (text.substring(0, 15) + "...")
+    }else {
+        return text
+    }
+}
+
+function search(){
+    window.open(`/?search=${document.getElementById("searchInput").value}`, "_self")
+}
+
+function APIAllCharacter(){
+    urlCharacters = "https://rickandmortyapi.com/api/character"
+    fetch(urlCharacters, {method: "GET"})
+        .then(response =>response.json())
+        .then(response => {
+            $("#pagination").html(pagination(response.info.next,response.info.prev,response.info.pages))
+            for (let i = 0; i < response.results.length; i++){
+                $("#card-container").append(`
+                <div class="col-md-4 col-lg-3">
+                    <div class="card card-character">
+                        <div class="card-back-effect"></div>
+                        <div class="card-body">
+                            <img src= "${response.results[i].image}" class="card-img-top" style="margin-top: 10px;">
+                            <h5 class="card-title title-card-character">${textReduction(response.results[i].name)}</h5>
+                            <div class="info-card-character" style="display:flex;flex-direction: column;">
+                                <span><img src="../assets/img/icon-gender.png">${response.results[i].gender}</span>
+                                <span><img src="../assets/img/icon-address.png">${textReduction(response.results[i].location.name)}</span>
+                                <span><img src="../assets/img/icon-heart-beat.png">${response.results[i].status}</span>
+                                <span><img src="../assets/img/icon-human.png">${response.results[i].species}</span>
+                            </div>
+                            <div class="card" style="border: none;border-radius: .50rem;">
+                                <button style="background-color: #0D7B32;outline: none;border: none;" type="button" class="btn btn-primary" id="btnmore" onclick="more('+ index +')">View more</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <button type="button" class="btn btn-primary" id="btnmore" onclick="more('+ index +')">View more</button>
                     </div>
                 </div>
 
-            `)
-        }
-    })
+                `)
+            }
+        })
+}
+
+function APIFindCharacter(name){
+    urlCharacters = `https://rickandmortyapi.com/api/character/?name=${name}`
+    fetch(urlCharacters, {method: "GET"})
+        .then(response =>response.json())
+        .then(response => {
+            $("#pagination").html("")
+            for (let i = 0; i < response.results.length; i++){
+                $("#card-container").append(`
+                <div class="col-md-4 col-lg-3">
+                    <div class="card card-character">
+                        <div class="card-back-effect"></div>
+                        <div class="card-body">
+                            <img src= "${response.results[i].image}" class="card-img-top" style="margin-top: 10px;">
+                            <h5 class="card-title title-card-character">${textReduction(response.results[i].name)}</h5>
+                            <div class="info-card-character" style="display:flex;flex-direction: column;">
+                                <span><img src="../assets/img/icon-gender.png">${response.results[i].gender}</span>
+                                <span><img src="../assets/img/icon-address.png">${textReduction(response.results[i].location.name)}</span>
+                                <span><img src="../assets/img/icon-heart-beat.png">${response.results[i].status}</span>
+                                <span><img src="../assets/img/icon-human.png">${response.results[i].species}</span>
+                            </div>
+                            <div class="card" style="border: none;border-radius: .50rem;">
+                                <button style="background-color: #0D7B32;outline: none;border: none;" type="button" class="btn btn-primary" id="btnmore" onclick="more('+ index +')">View more</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                `)}
+        })
+}
+
+function APIResidents(residentsList,id){
+    for (let x = 0; x < residentsList.length; x++){
+        fetch(residentsList[x], {method: "GET"})
+            .then(response =>response.json())
+            .then(response =>{
+                $(`#location${id}`).append(`<img style="border-radius: 100%;margin: 5px;border: 2px solid #0D7B32;" width="50px" src="${response.image}">`)
+            })
+    }
+}
+
+function APIAllLocations(){
+    var actualID = null
+    urlCharacters = "https://rickandmortyapi.com/api/location"
+    fetch(urlCharacters, {method: "GET"})
+        .then(response =>response.json())
+        .then(response => {
+            for (let i = 0; i < response.results.length; i++){
+                actualID = response.results[i].id
+                $("#card-location-container").append(`
+                <div class="card card-character" style="width: 80vw;">
+                    <h5 class="card-header title-card-character">${response.results[i].name}</h5>
+                    <div class="card-body">
+                    <h5 class="card-title">${response.results[i].type} - ${response.results[i].dimension}</h5>
+                    <div id="location${actualID}" style="display: flex;flex-wrap: wrap;">
+                    </div>
+                    </div>
+                </div>
+                `)
+                APIResidents(response.results[i].residents, actualID)
+            }
+        })
+}
+
+APIAllLocations()
