@@ -88,6 +88,12 @@ body {
     justify-content: center;
 }
 
+.img-character{
+    background-image: url("./assets/img/preload.jpeg");
+    background-size: cover;
+    width: 215px;
+}
+
 /* Extra small devices (xs)*/
 @media (max-width: 575.98px) {
     .search-bar{

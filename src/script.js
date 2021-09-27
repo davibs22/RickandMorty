@@ -42,7 +42,7 @@ function pagination(next,prev,pages){
     if (prev == null){
         return `
             <li class="page-item disabled">
-            <a class="page-link" href="" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
             <li class="page-item active">
                 <a class="page-link" href="">1</a>
@@ -60,7 +60,7 @@ function pagination(next,prev,pages){
     } else if (pages == parseInt(getParameterByName('page',window.location.href))){
         return `
             <li class="page-item">
-            <a class="page-link" href="/?page=${paginationConfig.prev}" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="/?page=${paginationConfig.prev}" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
             <li class="page-item">
                 <a class="page-link" href="/?page=${paginationConfig.actual - 2}">${paginationConfig.actual - 2}</a>
@@ -119,16 +119,13 @@ function APIAllCharacter(){
                     <div class="card card-character">
                         <div class="card-back-effect"></div>
                         <div class="card-body">
-                            <img src= "${response.results[i].image}" class="card-img-top" style="margin-top: 10px;">
+                            <img src= "${response.results[i].image}" class="card-img-top img-character" style="margin-top: 10px;">
                             <h5 class="card-title title-card-character">${textReduction(response.results[i].name)}</h5>
                             <div class="info-card-character" style="display:flex;flex-direction: column;">
                                 <span><img src="../assets/img/icon-gender.png">${response.results[i].gender}</span>
                                 <span><img src="../assets/img/icon-address.png">${textReduction(response.results[i].location.name)}</span>
                                 <span><img src="../assets/img/icon-heart-beat.png">${response.results[i].status}</span>
                                 <span><img src="../assets/img/icon-human.png">${response.results[i].species}</span>
-                            </div>
-                            <div class="card" style="border: none;border-radius: .50rem;">
-                                <button style="background-color: #0D7B32;outline: none;border: none;" type="button" class="btn btn-primary" id="btnmore" onclick="more('+ index +')">View more</button>
                             </div>
                         </div>
                     </div>
